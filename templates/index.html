@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home</title>
+    </head>
+    <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-color: black;
+                font-family: Arial, sans-serif;
+            }
+            form {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            input[type="text"] {
+                border: none;
+                border-bottom: 2px solid black;
+                padding: 10px;
+                border-radius: 5px;
+                
+            }
+            input[type="submit"] {
+                background-color: lightblue;
+                color: black;
+                border: none;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                border-radius: 5px;
+                margin-top: 25px;
+                cursor: pointer;
+            }
+        </style>
+    <body>
+        <div style="position: fixed; top: 0; right: 0; padding: 20px; font-size: 25px;">
+            <a href="/generate" style="color: lightblue; text-decoration: none;">Generator</a>
+        </div>
+        <form action="{{ url_for('forReview') }}" method="get">
+            <label for="db_link" style="color: white; font-family: Arial, sans-serif; margin-bottom: 25px;">Database link:</label>
+            <input type="text" id="db_link" name="db_link">
+            <input type="submit" value="Submit">
+        </form>
+    </body>
+</html>

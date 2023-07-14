@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generator</title>
+    <style>
+        body {
+            margin-left: 30%;
+            margin-top: 10%;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-color: black;
+                font-family: Arial, sans-serif;
+            }
+            form {
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .center-div {
+            position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+        }
+            input[type="text"] {
+                border: none;
+                border-bottom: 2px solid black;
+                padding: 10px;
+                border-radius: 5px;
+                
+            }
+            button {
+                background-color: lightblue;
+                color: black;
+                border: none;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                border-radius: 5px;
+
+            }
+            h1{
+                color: white;
+            }
+        #keyList li {
+            cursor: pointer;
+            color: white;
+            transition: .5s;
+            font-size: 20px;
+        }
+        #keyList li.selected {
+            color: green;
+            transition: .5s;
+            font-size: 25px;
+        }
+
+    </style>
+</head>
+<body>
+    <div style="position: fixed; top: 0; right: 0; padding: 20px; font-size: 25px;">
+        <a href="/" style="color: lightblue; text-decoration: none;">Home</a>
+    </div>
+    <div class=".center-div">
+        <h1>Select a Business</h1>
+        <ul id="keyList">
+            {% for key in businesses %}
+                <li onclick="selectKey(this, '{{ key }}')">{{ key }}</li>
+            {% endfor %}
+        </ul>
+        <label for="dbLink" style="color: white">Enter database link:</label><br>
+        <input type="text" id="dbLink" name="dbLink"><br><br>
+        <button onclick="submitForm()">Submit</button>
+    </div>
+
+    <script>
+        // Function to select a key
+        let selectedKey;
+        function selectKey(li, key) {
+            // Remove selected class from previously selected key
+            let selectedLi = document.querySelector('#keyList li.selected');
+            if (selectedLi) {
+                selectedLi.classList.remove('selected');
+            }
+
+            // Add selected class to clicked key
+            li.classList.add('selected');
+
+            selectedKey = key;
+            console.log("Selected key:", selectedKey);
+        }
+
+        // Function to submit form
+        function submitForm() {
+            let dbLink = document.getElementById("dbLink").value;
+            console.log("Database link:", dbLink);
+
+            // Send selectedKey and dbLink to Flask server
+            fetch('/submitGenerate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    selectedKey: selectedKey,
+                    dbLink: dbLink
+                })
+            });
+        }
+    </script>
+</body>
+</html>

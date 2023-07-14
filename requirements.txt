@@ -1,0 +1,6 @@
+apify_client==1.2.2
+beautifulsoup4==4.9.3
+Flask==1.1.2
+notion_client==2.0.0
+notion_database==1.1.0
+Requests==2.31.0
