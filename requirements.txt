@@ -1,6 +1,6 @@
-apify_client==1.2.2
-beautifulsoup4==4.9.3
+beautifulsoup4==4.10.0
 Flask==1.1.2
 notion_client==2.0.0
 notion_database==1.1.0
 Requests==2.31.0
+tiktokapipy==0.2.1

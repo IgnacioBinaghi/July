@@ -3,13 +3,11 @@ import requests
 import json
 import os
 from notion_database.page import Page
-import re
-from datetime import datetime, timezone
 
 notion = Client(auth="secret_K1L1ySh3uTqQpRtWfT3S1LTm7pz9euMEMg5WixK3j1Q")
 
 
-def create_item(databaseId, content):
+def create_item(databaseId, name, email, size, link):
     key = os.environ.get("secret_K1L1ySh3uTqQpRtWfT3S1LTm7pz9euMEMg5WixK3j1Q")
     headers = {'Authorization': f"Bearer secret_K1L1ySh3uTqQpRtWfT3S1LTm7pz9euMEMg5WixK3j1Q", 
            'Content-Type': 'application/json', 
@@ -20,59 +18,29 @@ def create_item(databaseId, content):
             "\ufeffName": {
                 "title": [{ 
                     "type": "text", 
-                    "text": { "content": content[0] } 
+                    "text": { "content": name } 
                 }]
             },
             "Status": {
-                "select": { "name": 'For Review' }
+                "select": { "name": 'Not Started' }
             },
             "Email": {
-                "email": content[1]
+                "email": email
             },
             "Size": {
                 "rich_text": [{ 
                     "type": "text", 
-                    "text": { "content": content[2] } 
+                    "text": { "content": size } 
                 }]
             },
             "Reference": {
-                "url": 'https://www.tiktok.com/@'+content[0]
+                "url": 'https://www.tiktok.com/@'+name
             },
             "Links": {
-                "url": content[3]
+                "url": link if link else None
             }
         }
     }
     create_response = requests.post(
     "https://api.notion.com/v1/pages", 
     json=create_page_body, headers=headers)
-
-
-
-def accept_creator(database_id, page_id):
-    updated_page = notion.pages.update(
-    page_id,
-    properties={
-        "Status": {
-            "select": {
-                "name": "Accepted"
-            }
-        }
-    }
-)
-
-def deny_creator(database_id, page_id):
-    updated_page = notion.pages.update(
-    page_id,
-    properties={
-        "Status": {
-            "select": {
-                "name": "Rejected"
-            }
-        }
-    }
-)
-
-
-
-

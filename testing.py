@@ -1,1 +1,0 @@
-read_database(database_id)

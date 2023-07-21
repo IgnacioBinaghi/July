@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Creators</title>
+        <link href='http://fonts.googleapis.com/css?family=Agrandir+Text+Bold' rel='stylesheet' type='text/css'>
+    </head>
+    <style>
+        @import url('http://fonts.googleapis.com/css?family=Agrandir+Text+Bold');
+        body {
+            height: 100vh;
+            background-color: #070808;
+            font-family: 'Agrandir Text Bold', sans-serif;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="submit"] {
+            background-color: #87e2f9;
+            color: #070808;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-top: 25px;
+            cursor: pointer;
+            width: 150px;
+        }
+        .image-container {
+            display:flex; 
+            justify-content:center; 
+            align-items:center; 
+            width:100%;
+            border-bottom:solid 2px #1a1d1e;
+            text-align: center;
+        }
+        .image-container a {
+            display: block;
+        }
+    </style>
+    <body>
+        <div class="image-container">
+            <a href="https://www.withjuly.com"><img class="h-6 w-auto" style="width: 5%;" src="{{url_for('static', filename='july.png')}}" alt = "July"/></a>
+          </div><br>
+        <div class="creators-container">
+            {% for creator in creators %}
+                <div class="creator" style="border:solid 2px #1a1d1e;">
+                    <img src="{{creator[1]}}" style="border-radius: 50%;"><br>
+                    Username: {{ creator[0] }} <br>
+                    Size: {{ creator[2] }} <br>
+                    Bio: {{ creator[3] }} <br>
+                    Email: {{ creator[-1] }} <br>
+                    Reference: <a href="http://www.tiktok.com/@{{ creator[0] }}" target="_blank">TikTok</a> <br>
+                    Links: <a href="http://www.{{ creator[4] }}" target="_blank"></a>{{ creator[4] }}<br>
+                    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@{{ creator[0] }}" data-unique-id="{{ creator[0] }}" data-embed-type="creator" style="max-width: 680px; min-width: 188px; border-radius: 10px;" > <section> <a target="_blank" href="https://www.tiktok.com/@{{ creator[0] }}?refer=creator_embed">@{{ creator[0] }}</a> </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>                    
+                    <button class="accept-button" onclick="add('{{creator[0]}}', '{{creator[-1]}}', '{{creator[2]}}', '{{creator[4]}}'); showModal('{{creator[0]}}')">Pitch</button>
+                </div>
+                {% endfor %}
+                </div>         
+                <div id="modal">
+                  <p>Added to list of creators</p> <br>
+                  <button id="backButton" onclick="hideModal()">Back</button>
+                </div>
+                <div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5);"></div>
+
+                <script type="text/javascript">
+                  function showModal(creator) {
+                        document.getElementById("modal").style.display = "block";
+                        document.getElementById("overlay").style.display = "block";
+                    }
+
+                    function hideModal() {
+                        document.getElementById("modal").style.display = "none";
+                        document.getElementById("overlay").style.display = "none";
+                    }
+
+
+
+                    function add(username, email, size, links) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', '/add');
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                        xhr.onload = function() {
+                            if (xhr.status === 200) {
+                                // Handle successful response
+                            } else {
+                                // Handle error
+                            }
+                        };
+                        xhr.send(JSON.stringify({
+                            username: username,
+                            email: email,
+                            size: size,
+                            links: links
+                        }));
+                    }
+
+                </script>
+
+        <style>
+            body {
+                background-color: #070808;
+                color:white;
+                font-family: Arial, sans-serif;
+            }
+            .creators-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                margin: 50px;
+            }
+            .creator {
+                width: 500px;
+                margin: 10px;
+                text-align: center;
+                font-size: 18px;
+                margin-bottom: 30px;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: #1a1d1e;
+            }
+            #overlay {
+                display:none;
+                position:fixed;
+                top:0;
+                left:0;
+                width:100%;
+                height:100%;
+                background-color:rgba(0, 0, 0, 0.5);
+                z-index: 1;
+            }
+
+            #modal {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                border-radius: 10px;
+                transform: translate(-50%, -50%);
+                border: solid 2px #1a1d1e;
+                padding: 10px;
+                background-color: #070808;
+                width: auto;
+                height: auto;
+                z-index: 2;
+            }
+
+            ul {
+                list-style-type: none;
+            }
+
+            li:before {
+                content: "\2022";
+                color: white;
+                font-size: 0em;
+                margin-right: 10px;
+            }
+            #backButton{
+                margin-top: 5px;
+                cursor: pointer;
+                transition: .5s;
+                background-color: #87e2f9;
+                color:black;
+                border:none;
+                padding:10px 20px;
+                text-align:center;
+                text-decoration:none;
+                display:inline-block;
+                font-size:16px;
+                border-radius:5px;
+                width:150px;
+            }
+
+            .accept-button {
+                cursor: pointer;
+                transition: .5s;
+                background-color: #87e2f9;
+                color:black;
+                border:none;
+                padding:10px 20px;
+                text-align:center;
+                text-decoration:none;
+                display:inline-block;
+                font-size:16px;
+                border-radius:5px;
+                width:150px;
+            }
+
+            button:hover {
+                transition:.5s;
+                box-shadow:0 0 10px white;
+            }
+
+            .accept-button.accepted:before {
+                content:"\2713";
+                color:green;
+            }
+            .decline-button.declined:before {
+                content:"\2717";
+                color:red;
+            }
+            li {
+                margin-bottom:20px;
+            }
+
+            a{
+            color:#61949e;  
+            }
+
+            button {
+                margin-top:10px;  
+                transition:.5s;  
+                background-color:#add8e6;  
+                font-size:18px;  
+            }
+        </style>
+    </body>
+</html>
