@@ -7,7 +7,7 @@ from influencers_to_notion import *
 app = Flask(__name__)
 app.secret_key = 'nacho'
 
-@app.route("/home")
+@app.route("/")
 def index():
     return render_template('index.html')
 
@@ -34,7 +34,7 @@ def add():
     size = data['size']
     links = data['links']
     create_item('daf8b9db57984a1c9ade779c345f28d3', username, email, size, links)
-    return f'Creator Added'
+    return f'Creators Added'
 
 
 

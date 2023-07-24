@@ -22,7 +22,7 @@ def create_item(databaseId, name, email, size, link):
                 }]
             },
             "Status": {
-                "select": { "name": 'Not Started' }
+                "select": { "name": 'New' }
             },
             "Email": {
                 "email": email

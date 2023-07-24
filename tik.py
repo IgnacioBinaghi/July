@@ -13,7 +13,12 @@ def find_email(text):
     pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     result = re.search(pattern, text)
     if result:
-        return result.group()
+        email = result.group()
+        if str(email)[len(str(email))-3:].lower() == 'png' or str(email)[len(str(email))-3:].lower() == 'jpg':
+            return None
+        elif str(email)[:4] == 'name':
+            return None
+        return email
     else:
         return None
 
@@ -56,9 +61,11 @@ def find_creators(hashtags, creators, keywords, num_creators):
                             res.append(get_url_email(str(res[4])))
                         #for u in keywords:
                             #if u in res[2]:
-                        creators.append(res)
-                        print('Creator Found')
-                        count+=1
+                        if res[-1] != None:
+                            creators.append(res)
+                            count+=1
+                            total += 1
+                            print(total)
             except Exception as e:
                 print(e)
                 continue
